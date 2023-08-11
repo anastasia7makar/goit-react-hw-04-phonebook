@@ -1,0 +1,26 @@
+.label {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 16px;
+    
+    font-size: 20px;
+    color: #777;
+ 
+}
+
+.input {
+    width: 100%;
+    padding: 16px 16px;
+    border: 1px solid #969696;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    margin-top: 8px;
+}
+
+.input:focus-within {
+    border: 1px solid #363636;
+  }
