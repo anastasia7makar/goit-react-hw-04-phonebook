@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 import { initialContacts } from 'data/initialContacts';
@@ -6,11 +6,18 @@ import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import Section from './Section/Section';
-import { useContacts } from 'hooks/useContacts';
+
+const LS_KEY = 'contacts';
+const parsedContacts = JSON.parse(localStorage.getItem(LS_KEY));
 
 export const App = () => {
-  const { contacts, updateContacts } = useContacts(initialContacts);
+  const [contacts, setContacts] = useState(parsedContacts ?? initialContacts);
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+    console.log(LS_KEY, contacts);
+  }, [contacts]);
 
   const handlerSubmit = data => {
     const newContact = {
@@ -25,7 +32,7 @@ export const App = () => {
     if (isExistContact !== -1)
       return alert(`${newContact.name} is already in contacts`);
 
-    updateContacts([...contacts, newContact]);
+    setContacts([...contacts, newContact]);
   };
 
   const onFilter = e => {
@@ -37,7 +44,7 @@ export const App = () => {
   );
 
   const deleteContact = userId => {
-    updateContacts(contacts.filter(contact => contact.id !== userId));
+    setContacts(contacts.filter(contact => contact.id !== userId));
   };
 
   return (
